@@ -1,6 +1,6 @@
 const balance = document.getElementById('balance');
-const money_plus = document.getElementById('money-plus');
-const money_minus = document.getElementById('money-minus');
+const moneyPlus = document.getElementById('money-plus');
+const moneyMinus = document.getElementById('money-minus');
 const list = document.getElementById('list');
 const form = document.getElementById('form');
 const text = document.getElementById('text');
@@ -14,9 +14,9 @@ const dummyTransactions = [
   { id: 3, text: 'Lens Assembly', amount: -150 }
 ];
 
-let transactions = [...dummyTransactions];
+let allTransactions = [...dummyTransactions];
+let visibleTransactions = [...dummyTransactions];
 
-// Add transaction to DOM list
 function addTransactionDOM(transaction) {
   const sign = transaction.amount < 0 ? '-' : '+';
   const item = document.createElement('li');
@@ -32,36 +32,57 @@ function addTransactionDOM(transaction) {
   list.appendChild(item);
 }
 
-// Update the balance, income and expense
 function updateValues() {
-  const amounts = transactions.map(transaction => transaction.amount.toString());
+  const amounts = allTransactions.map((transaction) => Number(transaction.amount));
 
-  const total = amounts.reduce((acc, item) => (acc + item), 0).toFixed(2);
+  const total = amounts.reduce((acc, item) => acc + item, 0).toFixed(2);
 
   const income = amounts
-    .filter(item => item > 0)
-    .reduce((acc, item) => (acc + item), 0)
+    .filter((item) => item > 0)
+    .reduce((acc, item) => acc + item, 0)
     .toFixed(2);
 
   const expense = (amounts
-    .filter(item => item < 0)
-    .reduce((acc, item) => (acc + item), 0) * -1)
+    .filter((item) => item < 0)
+    .reduce((acc, item) => acc + item, 0) * -1)
     .toFixed(2);
 
   balance.innerText = `$${total}`;
-  money_plus.innerText = `$${income}`;
-  money_minus.innerText = `$${expense}`;
+  moneyPlus.innerText = `$${income}`;
+  moneyMinus.innerText = `$${expense}`;
+}
+
+function getSearchTerm() {
+  return searchInput.value.trim().toLowerCase();
+}
+
+function syncVisibleTransactions() {
+  const term = getSearchTerm();
+
+  if (!term) {
+    visibleTransactions = [...allTransactions];
+    return;
+  }
+
+  visibleTransactions = allTransactions.filter((transaction) =>
+    transaction.text.toLowerCase().includes(term)
+  );
+}
+
+function renderList() {
+  list.innerHTML = '';
+  visibleTransactions.forEach(addTransactionDOM);
 }
 
 // Remove transaction by ID
 function removeTransaction(id) {
-  transactions = transactions.filter(transaction => transaction.id !== id);
+  allTransactions = allTransactions.filter((transaction) => transaction.id !== id);
+  init();
 }
 
-function filterTransactions(e) {
-  const term = e.target.value.toLowerCase();
-  transactions = transactions.filter(t => t.text.toLowerCase().includes(term));
-  init();
+function filterTransactions() {
+  syncVisibleTransactions();
+  renderList();
 }
 
 function addTransaction(e) {
@@ -69,20 +90,26 @@ function addTransaction(e) {
 
   if (text.value.trim() === '' || amount.value.trim() === '') {
     alert('Please add a text and amount');
-  } else {
-    const transaction = {
-      id: Math.floor(Math.random() * 100000000),
-      text: text.value,
-      amount: amount.value
-    };
-
-    transactions.push(transaction);
-    addTransactionDOM(transaction);
-    updateValues();
-
-    text.value = '';
-    amount.value = '';
+    return;
   }
+
+  const parsedAmount = Number(amount.value);
+  if (!Number.isFinite(parsedAmount)) {
+    alert('Please enter a valid numeric amount');
+    return;
+  }
+
+  const transaction = {
+    id: Math.floor(Math.random() * 100000000),
+    text: text.value.trim(),
+    amount: parsedAmount
+  };
+
+  allTransactions.push(transaction);
+  init();
+
+  text.value = '';
+  amount.value = '';
 }
 
 searchInput.addEventListener('input', filterTransactions);
@@ -90,17 +117,19 @@ form.addEventListener('submit', addTransaction);
 
 // Init app
 function init() {
-  list.innerHTML = '';
-  transactions.forEach(addTransactionDOM);
+  syncVisibleTransactions();
+  renderList();
   updateValues();
 }
 
 window.ExpenseTrackerApp = {
   getTransactions() {
-    return [...transactions];
+    return allTransactions.map((transaction) => ({ ...transaction }));
   },
   addTransaction(transaction) {
-    transactions.push(transaction);
+    allTransactions.push({ ...transaction });
+    syncVisibleTransactions();
+    updateValues();
   },
   renderTransaction(transaction) {
     addTransactionDOM(transaction);
@@ -111,18 +140,25 @@ window.ExpenseTrackerApp = {
   getDisplayedTotals() {
     return {
       balance: parseFloat(balance.innerText.replace('$', '')),
-      income: parseFloat(money_plus.innerText.replace('$', '')),
-      expense: parseFloat(money_minus.innerText.replace('$', ''))
+      income: parseFloat(moneyPlus.innerText.replace('$', '')),
+      expense: parseFloat(moneyMinus.innerText.replace('$', ''))
     };
   },
   getListElement() {
     return list;
   },
-  getBalanceElement() {
-    return balance;
-  },
   getDownloadCSV() {
     return typeof window.downloadCSV === 'function' ? window.downloadCSV : null;
+  },
+  setSearchTerm(value) {
+    searchInput.value = value;
+    filterTransactions();
+  },
+  getSearchTerm() {
+    return searchInput.value;
+  },
+  getRenderedTransactionCount() {
+    return list.children.length;
   }
 };
 
