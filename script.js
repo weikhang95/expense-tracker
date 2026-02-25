@@ -14,13 +14,21 @@ const dummyTransactions = [
   { id: 3, text: 'Lens Assembly', amount: -150 }
 ];
 
-let transactions = dummyTransactions;
+let transactions = [...dummyTransactions];
+
+// ── Mission Registry ──────────────────────────────
+const MISSIONS = {
+  m1: { pts: 10, status: 'pending' },
+  m2: { pts: 10, status: 'pending' },
+  m3: { pts: 10, status: 'pending' }
+};
 
 // Add transaction to DOM list
 function addTransactionDOM(transaction) {
   const sign = transaction.amount < 0 ? '-' : '+';
   const item = document.createElement('li');
   item.classList.add(transaction.amount < 0 ? 'minus' : 'plus');
+  item.dataset.id = transaction.id;
   item.innerHTML = `
     <span class="transaction-name">${transaction.text}</span>
     <span class="transaction-amount">${sign}$${Math.abs(transaction.amount)}</span>
@@ -32,7 +40,6 @@ function addTransactionDOM(transaction) {
 }
 
 // Update the balance, income and expense
-// BUG 1: String concatenation instead of math addition
 function updateValues() {
   const amounts = transactions.map(transaction => transaction.amount.toString());
 
@@ -54,32 +61,26 @@ function updateValues() {
 }
 
 // Remove transaction by ID
-// BUG 2: Deletes data but forgets to re-render the UI
 function removeTransaction(id) {
   transactions = transactions.filter(transaction => transaction.id !== id);
-  // Missing init() or updateDOM() call here!
 }
 
-// BUG 3: Search filter doesn't actually filter the displayed list
-// It filters the 'transactions' array instead of creating a temp copy, ruining the state
 function filterTransactions(e) {
   const term = e.target.value.toLowerCase();
   transactions = transactions.filter(t => t.text.toLowerCase().includes(term));
-  init(); // This will permanently delete transactions that don't match!
+  init();
 }
 
-// BUG 4: Form submission adds data but uses 'amount.value' which is a string
-// This will exacerbate the Bug 1 math issue
 function addTransaction(e) {
   e.preventDefault();
-  
+
   if (text.value.trim() === '' || amount.value.trim() === '') {
     alert('Please add a text and amount');
   } else {
     const transaction = {
       id: Math.floor(Math.random() * 100000000),
       text: text.value,
-      amount: amount.value // String bug!
+      amount: amount.value
     };
 
     transactions.push(transaction);
@@ -91,6 +92,107 @@ function addTransaction(e) {
   }
 }
 
+// ── Mission Check Functions ───────────────────────
+
+function checkM1() {
+  // Compute what the correct total SHOULD be using Number() coercion
+  const expectedTotal = transactions.reduce((acc, t) => acc + Number(t.amount), 0);
+
+  // Compute what updateValues() would actually render by sniffing the DOM output
+  // We call updateValues() inside a try/catch so a crash = definite fail
+  try {
+    updateValues();
+  } catch (e) {
+    return 'failed'; // BUG causes a crash — definitely not fixed yet
+  }
+
+  const displayedTotal = parseFloat(balance.innerText.replace('$', ''));
+
+  // If numbers match (within floating point tolerance), the bug is fixed
+  return Math.abs(displayedTotal - expectedTotal) < 0.01 ? 'passed' : 'failed';
+}
+
+function checkM2() {
+  // Add a temp transaction and render it
+  const testId = 888888888;
+  const testTx = { id: testId, text: '__del_test__', amount: 1 };
+  transactions.push(testTx);
+  addTransactionDOM(testTx);
+
+  // Call the (potentially buggy) removeTransaction
+  removeTransaction(testId);
+
+  // Check both data and DOM
+  const stillInArray = transactions.some(t => t.id === testId);
+  const stillInDOM = !!document.querySelector(`[data-id="${testId}"]`);
+
+  // Full cleanup regardless of bug state
+  transactions = transactions.filter(t => t.id !== testId);
+  const orphan = document.querySelector(`[data-id="${testId}"]`);
+  if (orphan) orphan.remove();
+  // Safe update: only update if M1 is already fixed (to avoid crash loop)
+  try { updateValues(); } catch (e) { /* ignore if M1 bug still present */ }
+
+  // Pass: not in array AND not in DOM
+  return (!stillInArray && !stillInDOM) ? 'passed' : 'failed';
+}
+
+function checkM3() {
+  return (typeof window.downloadCSV === 'function') ? 'passed' : 'failed';
+}
+
+// ── Mission UI ────────────────────────────────────
+
+function updateMissionUI() {
+  let totalPts = 0;
+  ['m1', 'm2', 'm3'].forEach(key => {
+    const chip = document.getElementById(`${key}-status`);
+    const { status, pts } = MISSIONS[key];
+    chip.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+    chip.className = `status-chip status-chip--${status}`;
+    if (status === 'passed') totalPts += pts;
+  });
+  document.getElementById('score-badge').textContent = `${totalPts} / 30 pts`;
+}
+
+function saveMissions() {
+  localStorage.setItem('op_patchwork_missions', JSON.stringify(MISSIONS));
+}
+
+function loadMissions() {
+  const saved = localStorage.getItem('op_patchwork_missions');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    Object.assign(MISSIONS, parsed);
+  }
+}
+
+// ── Event Listeners ───────────────────────────────
+
+document.getElementById('run-checks-btn').addEventListener('click', () => {
+  MISSIONS.m1.status = checkM1();
+  MISSIONS.m2.status = checkM2();
+  MISSIONS.m3.status = checkM3();
+  updateMissionUI();
+  saveMissions();
+});
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+  MISSIONS.m1.status = 'pending';
+  MISSIONS.m2.status = 'pending';
+  MISSIONS.m3.status = 'pending';
+  localStorage.removeItem('op_patchwork_missions');
+  updateMissionUI();
+});
+
+document.getElementById('csv-export-btn').addEventListener('click', () => {
+  if (typeof window.downloadCSV === 'function') {
+    window.downloadCSV();
+  } else {
+    alert('CSV export not implemented yet. This is Mission 3!');
+  }
+});
+
 searchInput.addEventListener('input', filterTransactions);
 form.addEventListener('submit', addTransaction);
 
@@ -101,4 +203,6 @@ function init() {
   updateValues();
 }
 
+loadMissions();
+updateMissionUI();
 init();

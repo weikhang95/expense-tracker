@@ -8,8 +8,8 @@ I’m hosting a **Bug Hunt & Hack** session this week to demo a completely termi
 
 As programmers, the terminal is our operating table. In this session, we’re going to prove that embedding AI directly into our native pipeline (Terminal → IDE → Browser) isn't just a peripheral tool; it’s a massive pipeline multiplier.
 
-### **The Challenge: Project Centurion**
-I’ve prepared a deliberately broken internal project called **"Project Centurion"** (an Equipment Budget Tracker) at a brand new repository.
+### **The Challenge: Operation Patchwork**
+I’ve prepared a deliberately broken internal project called **"Operation Patchwork"** (an Equipment Budget Tracker) at a brand new repository.
 
 ### **What We’ll Accomplish Together:**
 1. **The Visual Bug Hunt:** We’ll pipe broken code straight from the terminal to the AI model to fix nasty string-concatenation UI bugs in seconds—without ever Googling "why is JS adding strings like this."

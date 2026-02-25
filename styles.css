@@ -1,32 +1,38 @@
 /* ── Design Tokens ──────────────────────────────── */
 :root {
-  --bg:        #FAFAFA;
-  --surface:   #FFFFFF;
-  --primary:   #18181B;
-  --muted:     #71717A;
-  --border:    #E4E4E7;
-  --accent:    #2563EB;
+  --bg: #FAFAFA;
+  --surface: #FFFFFF;
+  --primary: #18181B;
+  --muted: #71717A;
+  --border: #E4E4E7;
+  --accent: #2563EB;
   --accent-hover: #1D4ED8;
-  --income:    #16A34A;
+  --income: #16A34A;
   --income-bg: #F0FDF4;
-  --expense:   #DC2626;
-  --expense-bg:#FEF2F2;
+  --expense: #DC2626;
+  --expense-bg: #FEF2F2;
 
-  --shadow-sm:  0 1px 2px rgba(0,0,0,.05);
-  --shadow-md:  0 4px 12px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.08);
-  --shadow-lg:  0 10px 30px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.06);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, .06), 0 1px 3px rgba(0, 0, 0, .08);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, .08), 0 2px 6px rgba(0, 0, 0, .06);
 
-  --radius-sm:  8px;
-  --radius-md:  12px;
-  --radius-lg:  16px;
-  --radius-full:9999px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
 
   --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --transition: 0.2s ease;
 }
 
 /* ── Reset & Base ──────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
   font-family: var(--font);
@@ -42,7 +48,19 @@ body {
 /* ── App Container ─────────────────────────────── */
 .app {
   width: 100%;
-  max-width: 420px;
+  max-width: 960px;
+}
+
+/* ── Two-Column Layout ──────────────────────────── */
+.layout {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+.tracker-column {
+  flex: 1;
+  min-width: 0;
 }
 
 /* ── Header ────────────────────────────────────── */
@@ -156,8 +174,13 @@ body {
   font-weight: 600;
 }
 
-.balance-card__stat-value--income { color: var(--income); }
-.balance-card__stat-value--expense { color: var(--expense); }
+.balance-card__stat-value--income {
+  color: var(--income);
+}
+
+.balance-card__stat-value--expense {
+  color: var(--expense);
+}
 
 /* ── History Section ───────────────────────────── */
 .history {
@@ -200,11 +223,13 @@ body {
   outline: none;
 }
 
-.search-wrapper__input::placeholder { color: var(--muted); }
+.search-wrapper__input::placeholder {
+  color: var(--muted);
+}
 
 .search-wrapper__input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
 }
 
 /* ── Transaction List ──────────────────────────── */
@@ -264,8 +289,13 @@ body {
   white-space: nowrap;
 }
 
-.transaction-list li.plus .transaction-amount { color: var(--income); }
-.transaction-list li.minus .transaction-amount { color: var(--expense); }
+.transaction-list li.plus .transaction-amount {
+  color: var(--income);
+}
+
+.transaction-list li.minus .transaction-amount {
+  color: var(--expense);
+}
 
 /* ── Delete Button ─────────────────────────────── */
 .delete-btn {
@@ -285,10 +315,19 @@ body {
   transition: opacity var(--transition), background var(--transition), color var(--transition);
 }
 
-.delete-btn svg { width: 14px; height: 14px; }
+.delete-btn svg {
+  width: 14px;
+  height: 14px;
+}
 
-.transaction-list li:hover .delete-btn { opacity: 1; }
-.delete-btn:hover { background: var(--expense-bg); color: var(--expense); }
+.transaction-list li:hover .delete-btn {
+  opacity: 1;
+}
+
+.delete-btn:hover {
+  background: var(--expense-bg);
+  color: var(--expense);
+}
 
 /* ── Add Transaction Form ──────────────────────── */
 .form {
@@ -329,11 +368,13 @@ body {
   outline: none;
 }
 
-.form__input::placeholder { color: var(--muted); }
+.form__input::placeholder {
+  color: var(--muted);
+}
 
 .form__input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
 }
 
 .form__hint {
@@ -361,13 +402,34 @@ body {
   transition: background var(--transition), transform var(--transition);
 }
 
-.form__submit svg { width: 16px; height: 16px; }
-.form__submit:hover { background: var(--accent-hover); }
-.form__submit:active { transform: scale(0.98); }
+.form__submit svg {
+  width: 16px;
+  height: 16px;
+}
+
+.form__submit:hover {
+  background: var(--accent-hover);
+}
+
+.form__submit:active {
+  transform: scale(0.98);
+}
 
 /* ── Responsive ────────────────────────────────── */
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .mission-panel {
+    width: 100%;
+  }
+}
+
 @media (max-width: 480px) {
-  body { padding: 24px 16px; }
+  body {
+    padding: 24px 16px;
+  }
 
   .balance-card__row {
     flex-direction: column;
@@ -377,4 +439,189 @@ body {
   .balance-card__amount {
     font-size: 30px;
   }
+}
+
+/* ── Mission Panel ──────────────────────────────── */
+.mission-panel {
+  width: 300px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 24px;
+  position: sticky;
+  top: 40px;
+}
+
+.mission-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+.mission-panel__title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.mission-panel__subtitle {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.score-badge {
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Mission List ───────────────────────────────── */
+.mission-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.mission-row {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.mission-row__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.mission-row__meta {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.mission-number {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(37, 99, 235, .08);
+  border-radius: 6px;
+  padding: 2px 7px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.mission-name {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.mission-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.mission-pts {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+}
+
+/* ── Status Chips ───────────────────────────────── */
+.status-chip {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.status-chip--pending {
+  background: #F4F4F5;
+  color: var(--muted);
+}
+
+.status-chip--passed {
+  background: var(--income-bg);
+  color: var(--income);
+}
+
+.status-chip--failed {
+  background: var(--expense-bg);
+  color: var(--expense);
+}
+
+/* ── Mission Action Buttons ─────────────────────── */
+.mission-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mission-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background var(--transition), transform var(--transition), color var(--transition);
+}
+
+.mission-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.mission-btn--primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.mission-btn--primary:hover {
+  background: var(--accent-hover);
+}
+
+.mission-btn--secondary {
+  background: var(--bg);
+  color: var(--primary);
+  border: 1px solid var(--border);
+}
+
+.mission-btn--secondary:hover {
+  background: var(--border);
+}
+
+.mission-btn--ghost {
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.mission-btn--ghost:hover {
+  color: var(--expense);
+}
+
+.mission-btn:active {
+  transform: scale(0.98);
 }

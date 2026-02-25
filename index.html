@@ -1,97 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expense Tracker Pro</title>
+  <title>Operation Patchwork — AI Bug Hunt</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <div class="app">
 
     <!-- Header -->
     <header class="header">
       <div class="header__brand">
-        <svg class="header__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2.5"/>
-          <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>
+        <svg class="header__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2.5" />
+          <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
         </svg>
         <h1 class="header__title">Expense Tracker</h1>
       </div>
-      <p class="header__subtitle">Equipment Budget</p>
+      <p class="header__subtitle">Operation Patchwork — AI Bug Hunt</p>
     </header>
 
-    <main>
-      <!-- Balance Card -->
-      <section class="balance-card">
-        <p class="balance-card__label">Your Balance</p>
-        <h2 class="balance-card__amount" id="balance">$0.00</h2>
-        <div class="balance-card__divider"></div>
-        <div class="balance-card__row">
-          <div class="balance-card__stat">
-            <div class="balance-card__icon-circle balance-card__icon-circle--income">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
-              </svg>
-            </div>
-            <div>
-              <p class="balance-card__stat-label">Income</p>
-              <p class="balance-card__stat-value balance-card__stat-value--income" id="money-plus">$0.00</p>
-            </div>
-          </div>
-          <div class="balance-card__stat">
-            <div class="balance-card__icon-circle balance-card__icon-circle--expense">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>
-              </svg>
-            </div>
-            <div>
-              <p class="balance-card__stat-label">Expense</p>
-              <p class="balance-card__stat-value balance-card__stat-value--expense" id="money-minus">$0.00</p>
-            </div>
-          </div>
-        </div>
-      </section>
+    <div class="layout">
 
-      <!-- History -->
-      <section class="history">
-        <h3 class="history__heading">History</h3>
-        <div class="search-wrapper">
-          <svg class="search-wrapper__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-          <input class="search-wrapper__input" type="text" id="search" placeholder="Search transactions..." />
-        </div>
-        <ul id="list" class="transaction-list"></ul>
-      </section>
+      <!-- Left: Tracker Column -->
+      <main class="tracker-column">
+        <!-- Balance Card -->
+        <section class="balance-card">
+          <p class="balance-card__label">Your Balance</p>
+          <h2 class="balance-card__amount" id="balance">$0.00</h2>
+          <div class="balance-card__divider"></div>
+          <div class="balance-card__row">
+            <div class="balance-card__stat">
+              <div class="balance-card__icon-circle balance-card__icon-circle--income">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="19" x2="12" y2="5" />
+                  <polyline points="5 12 12 5 19 12" />
+                </svg>
+              </div>
+              <div>
+                <p class="balance-card__stat-label">Income</p>
+                <p class="balance-card__stat-value balance-card__stat-value--income" id="money-plus">$0.00</p>
+              </div>
+            </div>
+            <div class="balance-card__stat">
+              <div class="balance-card__icon-circle balance-card__icon-circle--expense">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <polyline points="19 12 12 19 5 12" />
+                </svg>
+              </div>
+              <div>
+                <p class="balance-card__stat-label">Expense</p>
+                <p class="balance-card__stat-value balance-card__stat-value--expense" id="money-minus">$0.00</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-      <!-- Add Transaction Form -->
-      <section class="form" id="form-section">
-        <h3 class="form__heading">Add Transaction</h3>
-        <form id="form">
-          <div class="form__group">
-            <label class="form__label" for="text">Description</label>
-            <input class="form__input" type="text" id="text" placeholder="e.g. Servo Motor" />
-          </div>
-          <div class="form__group">
-            <label class="form__label" for="amount">Amount</label>
-            <input class="form__input" type="number" id="amount" placeholder="e.g. -250 or 3000" />
-            <p class="form__hint">Negative for expense, positive for income</p>
-          </div>
-          <button class="form__submit" type="submit">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        <!-- History -->
+        <section class="history">
+          <h3 class="history__heading">History</h3>
+          <div class="search-wrapper">
+            <svg class="search-wrapper__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
-            Add Transaction
-          </button>
-        </form>
-      </section>
-    </main>
+            <input class="search-wrapper__input" type="text" id="search" placeholder="Search transactions..." />
+          </div>
+          <ul id="list" class="transaction-list"></ul>
+        </section>
 
+        <!-- Add Transaction Form -->
+        <section class="form" id="form-section">
+          <h3 class="form__heading">Add Transaction</h3>
+          <form id="form">
+            <div class="form__group">
+              <label class="form__label" for="text">Description</label>
+              <input class="form__input" type="text" id="text" placeholder="e.g. Servo Motor" />
+            </div>
+            <div class="form__group">
+              <label class="form__label" for="amount">Amount</label>
+              <input class="form__input" type="number" id="amount" placeholder="e.g. -250 or 3000" />
+              <p class="form__hint">Negative for expense, positive for income</p>
+            </div>
+            <button class="form__submit" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Add Transaction
+            </button>
+          </form>
+        </section>
+      </main>
+
+      <!-- Right: Mission Panel -->
+      <aside class="mission-panel">
+        <div class="mission-panel__header">
+          <div>
+            <h2 class="mission-panel__title">Mission Control</h2>
+            <p class="mission-panel__subtitle">Fix the bugs using AI</p>
+          </div>
+          <span class="score-badge" id="score-badge">0 / 30 pts</span>
+        </div>
+
+        <div class="mission-list">
+
+          <!-- M1 -->
+          <div class="mission-row">
+            <div class="mission-row__top">
+              <div class="mission-row__meta">
+                <span class="mission-number">M1</span>
+                <div>
+                  <p class="mission-name">The Math Bug</p>
+                  <p class="mission-desc">Balance totals are calculating incorrectly</p>
+                </div>
+              </div>
+              <span class="status-chip status-chip--pending" id="m1-status">Pending</span>
+            </div>
+            <p class="mission-pts">10 pts</p>
+          </div>
+
+          <!-- M2 -->
+          <div class="mission-row">
+            <div class="mission-row__top">
+              <div class="mission-row__meta">
+                <span class="mission-number">M2</span>
+                <div>
+                  <p class="mission-name">The Ghost Delete</p>
+                  <p class="mission-desc">Delete removes data but the UI doesn't update</p>
+                </div>
+              </div>
+              <span class="status-chip status-chip--pending" id="m2-status">Pending</span>
+            </div>
+            <p class="mission-pts">10 pts</p>
+          </div>
+
+          <!-- M3 -->
+          <div class="mission-row">
+            <div class="mission-row__top">
+              <div class="mission-row__meta">
+                <span class="mission-number">M3</span>
+                <div>
+                  <p class="mission-name">CSV Export</p>
+                  <p class="mission-desc">Implement a CSV download for all transactions</p>
+                </div>
+              </div>
+              <span class="status-chip status-chip--pending" id="m3-status">Pending</span>
+            </div>
+            <p class="mission-pts">10 pts</p>
+          </div>
+
+        </div>
+
+        <div class="mission-actions">
+          <button class="mission-btn mission-btn--primary" id="run-checks-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 11 12 14 22 4" />
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+            </svg>
+            Run Checks
+          </button>
+          <button class="mission-btn mission-btn--secondary" id="csv-export-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Download CSV
+          </button>
+          <button class="mission-btn mission-btn--ghost" id="reset-btn">Reset Progress</button>
+        </div>
+      </aside>
+
+    </div>
   </div>
   <script src="script.js"></script>
 </body>
+
 </html>
