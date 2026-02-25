@@ -21,7 +21,7 @@ No more context switching. No more copy-pasting to and from side panels. You'll 
 
 **Pre-requisites:**
 Before the workshop, just make sure you have the repository cloned:
-`git clone <INSERT_GITHUB_URL_HERE>`
+`git clone https://github.com/weikhang95/expense-tracker.git`
 
 Let’s solve this like engineers. Calendar invite attached. See you there!
 
