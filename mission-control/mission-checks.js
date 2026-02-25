@@ -41,3 +41,31 @@ export function checkM2(appApi) {
 export function checkM3(appApi) {
   return typeof appApi.getDownloadCSV() === 'function' ? 'passed' : 'failed';
 }
+
+export function checkM4(appApi) {
+  const originalTransactions = appApi.getTransactions();
+  const originalIds = new Set(originalTransactions.map((tx) => tx.id));
+  const originalCount = originalTransactions.length;
+
+  if (originalCount === 0) {
+    return 'failed';
+  }
+
+  const searchTerm = originalTransactions[0].text.toLowerCase();
+  appApi.setSearchTerm(searchTerm);
+  const filteredCount = appApi.getRenderedTransactionCount();
+
+  appApi.setSearchTerm('');
+  const restoredCount = appApi.getRenderedTransactionCount();
+  const restoredTransactions = appApi.getTransactions();
+
+  const idsIntact = restoredTransactions.every((tx) => originalIds.has(tx.id))
+    && restoredTransactions.length === originalIds.size;
+  const countRestored = restoredCount === originalCount;
+  const dataUnchanged = restoredTransactions.length === originalCount;
+
+  // Ensures the flow really exercised filtering and restoration behavior.
+  const filterExecuted = filteredCount >= 1;
+
+  return (idsIntact && countRestored && dataUnchanged && filterExecuted) ? 'passed' : 'failed';
+}

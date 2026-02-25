@@ -1,4 +1,4 @@
-import { checkM1, checkM2, checkM3 } from './mission-checks.js';
+import { checkM1, checkM2, checkM3, checkM4 } from './mission-checks.js';
 
 const STORAGE_KEY = 'op_patchwork_missions';
 const TEMPLATE_URL = './mission-control/mission-control.template.html';
@@ -65,7 +65,9 @@ function defaultMissions() {
   return {
     m1: { pts: 10, status: 'pending' },
     m2: { pts: 10, status: 'pending' },
-    m3: { pts: 10, status: 'pending' }
+    m3: { pts: 10, status: 'pending' },
+    // Hidden mission for destructive-search regression validation.
+    m4: { pts: 0, status: 'pending' }
   };
 }
 
@@ -127,14 +129,17 @@ function bindActions(rootEl, missions, appApi) {
     missions.m1.status = checkM1(appApi);
     missions.m2.status = checkM2(appApi);
     missions.m3.status = checkM3(appApi);
+    missions.m4.status = checkM4(appApi);
     updateMissionUI(rootEl, missions);
     saveMissions(missions);
+    console.info(`[Mission Control] Hidden M4 status: ${missions.m4.status}`);
   });
 
   resetBtn.addEventListener('click', () => {
     missions.m1.status = 'pending';
     missions.m2.status = 'pending';
     missions.m3.status = 'pending';
+    missions.m4.status = 'pending';
     localStorage.removeItem(STORAGE_KEY);
     updateMissionUI(rootEl, missions);
   });

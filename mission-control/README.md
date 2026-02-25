@@ -19,6 +19,14 @@ Expected API:
 - `getDisplayedTotals()`
 - `getListElement()`
 - `getDownloadCSV()`
+- `setSearchTerm(value)`
+- `getSearchTerm()`
+- `getRenderedTransactionCount()`
+
+## Hidden Mission Check
+- `M4` is a hidden check for destructive search behavior.
+- It runs when `Run Checks` is pressed, persists in mission state, and logs result in console.
+- It does not change the visible score denominator (`30 pts`).
 
 ## Guardrail
 For tracker-only changes, avoid editing files in this folder unless the integration contract changes.
