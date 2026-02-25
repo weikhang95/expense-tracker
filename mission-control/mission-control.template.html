@@ -1,0 +1,74 @@
+<div class="mission-panel" data-mission-control>
+  <div class="mission-panel__header">
+    <div>
+      <h2 class="mission-panel__title">Mission Control</h2>
+      <p class="mission-panel__subtitle">Fix the bugs using AI</p>
+    </div>
+    <span class="score-badge" id="score-badge">0 / 30 pts</span>
+  </div>
+
+  <div class="mission-list">
+    <div class="mission-row">
+      <div class="mission-row__top">
+        <div class="mission-row__meta">
+          <span class="mission-number">M1</span>
+          <div>
+            <p class="mission-name">The Math Bug</p>
+            <p class="mission-desc">Balance totals are calculating incorrectly</p>
+          </div>
+        </div>
+        <span class="status-chip status-chip--pending" id="m1-status">Pending</span>
+      </div>
+      <p class="mission-pts">10 pts</p>
+    </div>
+
+    <div class="mission-row">
+      <div class="mission-row__top">
+        <div class="mission-row__meta">
+          <span class="mission-number">M2</span>
+          <div>
+            <p class="mission-name">The Ghost Delete</p>
+            <p class="mission-desc">Delete removes data but the UI doesn't update</p>
+          </div>
+        </div>
+        <span class="status-chip status-chip--pending" id="m2-status">Pending</span>
+      </div>
+      <p class="mission-pts">10 pts</p>
+    </div>
+
+    <div class="mission-row">
+      <div class="mission-row__top">
+        <div class="mission-row__meta">
+          <span class="mission-number">M3</span>
+          <div>
+            <p class="mission-name">CSV Export</p>
+            <p class="mission-desc">Implement a CSV download for all transactions</p>
+          </div>
+        </div>
+        <span class="status-chip status-chip--pending" id="m3-status">Pending</span>
+      </div>
+      <p class="mission-pts">10 pts</p>
+    </div>
+  </div>
+
+  <div class="mission-actions">
+    <button class="mission-btn mission-btn--primary" id="run-checks-btn" type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 11 12 14 22 4" />
+        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+      </svg>
+      Run Checks
+    </button>
+    <button class="mission-btn mission-btn--secondary" id="csv-export-btn" type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+      Download CSV
+    </button>
+    <button class="mission-btn mission-btn--ghost" id="reset-btn" type="button">Reset Progress</button>
+  </div>
+</div>
