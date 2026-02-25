@@ -1,0 +1,380 @@
+/* ── Design Tokens ──────────────────────────────── */
+:root {
+  --bg:        #FAFAFA;
+  --surface:   #FFFFFF;
+  --primary:   #18181B;
+  --muted:     #71717A;
+  --border:    #E4E4E7;
+  --accent:    #2563EB;
+  --accent-hover: #1D4ED8;
+  --income:    #16A34A;
+  --income-bg: #F0FDF4;
+  --expense:   #DC2626;
+  --expense-bg:#FEF2F2;
+
+  --shadow-sm:  0 1px 2px rgba(0,0,0,.05);
+  --shadow-md:  0 4px 12px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.08);
+  --shadow-lg:  0 10px 30px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.06);
+
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-full:9999px;
+
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --transition: 0.2s ease;
+}
+
+/* ── Reset & Base ──────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--primary);
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── App Container ─────────────────────────────── */
+.app {
+  width: 100%;
+  max-width: 420px;
+}
+
+/* ── Header ────────────────────────────────────── */
+.header {
+  margin-bottom: 28px;
+}
+
+.header__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.header__icon {
+  width: 28px;
+  height: 28px;
+  color: var(--accent);
+}
+
+.header__title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.header__subtitle {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-left: 38px;
+}
+
+/* ── Balance Card ──────────────────────────────── */
+.balance-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 24px;
+  margin-bottom: 28px;
+}
+
+.balance-card__label {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.balance-card__amount {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
+
+.balance-card__divider {
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 20px;
+}
+
+.balance-card__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.balance-card__stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.balance-card__icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.balance-card__icon-circle--income {
+  background: var(--income-bg);
+  color: var(--income);
+}
+
+.balance-card__icon-circle--expense {
+  background: var(--expense-bg);
+  color: var(--expense);
+}
+
+.balance-card__icon-circle svg {
+  width: 16px;
+  height: 16px;
+}
+
+.balance-card__stat-label {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.balance-card__stat-value {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.balance-card__stat-value--income { color: var(--income); }
+.balance-card__stat-value--expense { color: var(--expense); }
+
+/* ── History Section ───────────────────────────── */
+.history {
+  margin-bottom: 28px;
+}
+
+.history__heading {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* ── Search ─────────────────────────────────────── */
+.search-wrapper {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.search-wrapper__icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.search-wrapper__input {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--primary);
+  background: var(--surface);
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+}
+
+.search-wrapper__input::placeholder { color: var(--muted); }
+
+.search-wrapper__input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+}
+
+/* ── Transaction List ──────────────────────────── */
+.transaction-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.transaction-list:empty::after {
+  content: 'No transactions yet.';
+  display: block;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 24px 0;
+}
+
+.transaction-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  padding: 12px 14px;
+  border-left: 4px solid var(--income);
+  position: relative;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.transaction-list li.minus {
+  border-left-color: var(--expense);
+}
+
+.transaction-list li:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.transaction-name {
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transaction-amount {
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  margin-left: 12px;
+  white-space: nowrap;
+}
+
+.transaction-list li.plus .transaction-amount { color: var(--income); }
+.transaction-list li.minus .transaction-amount { color: var(--expense); }
+
+/* ── Delete Button ─────────────────────────────── */
+.delete-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity var(--transition), background var(--transition), color var(--transition);
+}
+
+.delete-btn svg { width: 14px; height: 14px; }
+
+.transaction-list li:hover .delete-btn { opacity: 1; }
+.delete-btn:hover { background: var(--expense-bg); color: var(--expense); }
+
+/* ── Add Transaction Form ──────────────────────── */
+.form {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 24px;
+}
+
+.form__heading {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.form__group {
+  margin-bottom: 14px;
+}
+
+.form__label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.form__input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--primary);
+  background: var(--surface);
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+}
+
+.form__input::placeholder { color: var(--muted); }
+
+.form__input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+}
+
+.form__hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.form__submit {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 16px;
+  margin-top: 20px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.form__submit svg { width: 16px; height: 16px; }
+.form__submit:hover { background: var(--accent-hover); }
+.form__submit:active { transform: scale(0.98); }
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 480px) {
+  body { padding: 24px 16px; }
+
+  .balance-card__row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .balance-card__amount {
+    font-size: 30px;
+  }
+}
