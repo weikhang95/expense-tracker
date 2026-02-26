@@ -85,7 +85,7 @@ function loadMissions() {
   const missions = defaultMissions();
   const saved = localStorage.getItem(STORAGE_KEY);
   if (!saved) {
-    return missions;
+    return { missions, hasSaved: false };
   }
 
   try {
@@ -93,9 +93,10 @@ function loadMissions() {
     Object.assign(missions, parsed);
   } catch (error) {
     localStorage.removeItem(STORAGE_KEY);
+    return { missions, hasSaved: false };
   }
 
-  return missions;
+  return { missions, hasSaved: true };
 }
 
 function saveMissions(missions) {
@@ -118,15 +119,31 @@ function updateMissionUI(rootEl, missions) {
   scoreBadge.textContent = `${totalPts} / 30 pts`;
 }
 
+function runMissionChecks(appApi) {
+  return {
+    m1: checkM1(appApi),
+    m2: checkM2(appApi),
+    m3: checkM3(appApi)
+  };
+}
+
+function revalidateSavedMissions(missions, appApi) {
+  const latest = runMissionChecks(appApi);
+  ['m1', 'm2', 'm3'].forEach((key) => {
+    missions[key].status = latest[key];
+  });
+}
+
 function bindActions(rootEl, missions, appApi) {
   const runChecksBtn = rootEl.querySelector('#run-checks-btn');
   const resetBtn = rootEl.querySelector('#reset-btn');
   const csvExportBtn = rootEl.querySelector('#csv-export-btn');
 
   runChecksBtn.addEventListener('click', () => {
-    missions.m1.status = checkM1(appApi);
-    missions.m2.status = checkM2(appApi);
-    missions.m3.status = checkM3(appApi);
+    const latest = runMissionChecks(appApi);
+    missions.m1.status = latest.m1;
+    missions.m2.status = latest.m2;
+    missions.m3.status = latest.m3;
     updateMissionUI(rootEl, missions);
     saveMissions(missions);
   });
@@ -156,7 +173,11 @@ export async function initMissionControl({ rootEl, appApi }) {
 
   rootEl.innerHTML = await loadTemplateMarkup();
 
-  const missions = loadMissions();
+  const { missions, hasSaved } = loadMissions();
+  if (hasSaved) {
+    revalidateSavedMissions(missions, appApi);
+    saveMissions(missions);
+  }
   updateMissionUI(rootEl, missions);
   bindActions(rootEl, missions, appApi);
 }
