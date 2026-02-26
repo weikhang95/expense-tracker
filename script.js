@@ -52,6 +52,48 @@ function updateValues() {
   moneyMinus.innerText = `$${expense}`;
 }
 
+function escapeCsvField(value) {
+  const stringValue = String(value);
+  if (/["\n,]/.test(stringValue)) {
+    return `"${stringValue.replace(/"/g, '""')}"`;
+  }
+  return stringValue;
+}
+
+function buildTransactionsCsv(transactions) {
+  const header = ['id', 'description', 'amount', 'type'];
+  const rows = transactions.map((transaction) => {
+    const numericAmount = Number(transaction.amount);
+    const row = [
+      transaction.id,
+      transaction.text,
+      numericAmount.toFixed(2),
+      numericAmount >= 0 ? 'income' : 'expense'
+    ];
+    return row.map(escapeCsvField).join(',');
+  });
+
+  return [header.join(','), ...rows].join('\r\n');
+}
+
+function downloadCSV() {
+  const csvData = buildTransactionsCsv(allTransactions);
+  const csvWithBom = `\uFEFF${csvData}`;
+
+  const blob = new Blob([csvWithBom], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+
+  const date = new Date().toISOString().slice(0, 10);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `transactions-${date}.csv`;
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
 function getSearchTerm() {
   return searchInput.value.trim().toLowerCase();
 }
@@ -121,6 +163,8 @@ function init() {
   renderList();
   updateValues();
 }
+
+window.downloadCSV = downloadCSV;
 
 window.ExpenseTrackerApp = {
   getTransactions() {
