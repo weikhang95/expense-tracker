@@ -162,6 +162,10 @@ function init() {
   syncVisibleTransactions();
   renderList();
   updateValues();
+  // Update live charts if available
+  if (typeof window.updateCharts === 'function') {
+    window.updateCharts(allTransactions);
+  }
 }
 
 window.downloadCSV = downloadCSV;

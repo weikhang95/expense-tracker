@@ -67,6 +67,19 @@
           </div>
         </section>
 
+        <!-- Charts Dashboard -->
+        <section class="charts-dashboard">
+          <h3 class="charts-dashboard__heading">Analytics</h3>
+          <div class="charts-dashboard__grid">
+            <div class="charts-dashboard__card">
+              <canvas id="expense-donut-chart"></canvas>
+            </div>
+            <div class="charts-dashboard__card">
+              <canvas id="income-expense-bar-chart"></canvas>
+            </div>
+          </div>
+        </section>
+
         <!-- History -->
         <section class="history">
           <h3 class="history__heading">History</h3>
@@ -111,6 +124,8 @@
 
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="charts.js"></script>
   <script src="script.js"></script>
   <script type="module" src="mission-control/mission-control.js"></script>
 </body>

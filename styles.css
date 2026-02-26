@@ -187,6 +187,54 @@ body {
   color: var(--expense);
 }
 
+/* ── Charts Dashboard ─────────────────────────── */
+.charts-dashboard {
+  margin-bottom: 28px;
+}
+
+.charts-dashboard__heading {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.charts-dashboard__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.charts-dashboard__card {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 8px;
+  overflow: hidden;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.charts-dashboard__card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.charts-dashboard__card--wide {
+  grid-column: 1 / -1;
+}
+
+.charts-dashboard__img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 480px) {
+  .charts-dashboard__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── History Section ───────────────────────────── */
 .history {
   margin-bottom: 28px;
